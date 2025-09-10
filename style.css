@@ -120,11 +120,24 @@ select {
   width: min(100%, 420px);
   box-shadow: 0 2px 6px -2px rgba(0,0,0,0.15);
   cursor: pointer;
+  color: var(--text-dark);
+  -webkit-text-fill-color: currentColor; /* iOS Safari dark-mode auto styling safeguard */
 }
 select:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
 /* Provide an arrow indicator */
 select { background-image: linear-gradient(45deg, transparent 50%, var(--pink) 50%), linear-gradient(135deg, var(--pink) 50%, transparent 50%); background-position: calc(100% - 22px) calc(50% - 5px), calc(100% - 16px) calc(50% + 5px); background-size: 7px 7px, 7px 7px; background-repeat: no-repeat; }
+
+/* Dark mode explicit select styling to avoid white text on white background */
+@media (prefers-color-scheme: dark) {
+  select {
+    background: rgba(55,60,68,0.92);
+    border-color: #555;
+    color: #f2f5f7;
+    -webkit-text-fill-color: #f2f5f7;
+  }
+  select option { background: #2d3238; color: #f2f5f7; }
+}
 
 /* Larger devices refinements */
 @media (min-width: 560px) {
