@@ -1,96 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#ff4d88" />
   <title>For My Love Giuly 💕</title>
-  <style>
-    body {
-      font-family: 'Trebuchet MS', sans-serif;
-      background: linear-gradient(to right, #fceff9, #e2f0ff);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      text-align: center;
-      transition: background 1s ease;
-    }
-    h1 {
-      color: #ff4d88;
-    }
-    .btn {
-      background: #ff4d88;
-      border: none;
-      padding: 15px 30px;
-      color: white;
-      font-size: 18px;
-      border-radius: 50px;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      transition: 0.3s;
-      margin: 10px;
-    }
-    .btn:hover {
-      background: #ff6699;
-      transform: scale(1.05);
-    }
-    .message {
-      margin-top: 30px;
-      font-size: 20px;
-      color: #333;
-      min-height: 50px;
-      padding: 20px;
-      border-radius: 15px;
-      background: white;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      max-width: 600px;
-    }
-    .heart {
-      font-size: 40px;
-      color: #ff4d88;
-      animation: pulse 1s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
-    }
-    .background-selector {
-      margin-top: 20px;
-    }
-    select {
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      cursor: pointer;
-    }
-  </style>
+  <meta name="description" content="A tiny comfort button full of love notes for Giuly." />
+  <link rel="preload" href="style.css" as="style" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Ctext y='50%' x='50%' dominant-baseline='middle' text-anchor='middle' font-size='48'%3E❤%3C/text%3E%3C/svg%3E" />
 </head>
 <body>
-  <h1>Hi Honey 💖</h1>
-  <p>Whenever you miss me, click below for a little surprise from me:</p>
-  <button class="btn" onclick="showMessage()">Click me, my Love 💕</button>
-  <div class="message" id="messageBox"></div>
-  <div class="heart">❤️</div>
+  <main>
+    <h1>Hi Honey 💖</h1>
+    <p class="intro">Whenever you miss me, tap below for a little surprise from me:</p>
+    <div class="actions">
+      <button class="btn" id="comfortBtn" type="button" aria-describedby="messageBox">Click me, my Love 💕</button>
+    </div>
+    <div class="message" id="messageBox" role="status" aria-live="polite" aria-atomic="true"></div>
+    <div class="heart" aria-hidden="true">❤️</div>
 
-  <div class="background-selector">
-    <p>✨ Choose a background you like, Honey:</p>
-    <select id="bgSelect" onchange="changeBackground()">
-      <option value="linear-gradient(to right, #fceff9, #e2f0ff)">Soft Pink & Blue</option>
-      <option value="linear-gradient(to right, #89f7fe, #66a6ff)">Sky Blue Gradient</option>
-      <option value="linear-gradient(to right, #4facfe, #00f2fe)">Ocean Blue</option>
-      <option value="linear-gradient(to right, #c2e9fb, #a1c4fd)">Pastel Blue</option>
-      <option value="linear-gradient(to right, #ff9a9e, #fad0c4)">Rose Love</option>
-      <option value="linear-gradient(to right, #a18cd1, #fbc2eb)">Purple Dream</option>
-      <option value="linear-gradient(to right, #43cea2, #185a9d)">Ocean Breeze</option>
-      <option value="linear-gradient(to right, #fddb92, #d1fdff)">Sunshine & Sky</option>
-      <option value="linear-gradient(to right, #6a11cb, #2575fc)">Royal Blue</option>
-      <option value="linear-gradient(to right, #ffecd2, #fcb69f)">Peach Glow</option>
-    </select>
-  </div>
+    <div class="background-selector">
+      <p>✨ Choose a background you like, Honey:</p>
+      <select id="bgSelect" aria-label="Choose background theme">
+        <option value="linear-gradient(to right, #fceff9, #e2f0ff)">Soft Pink & Blue</option>
+        <option value="linear-gradient(to right, #89f7fe, #66a6ff)">Sky Blue Gradient</option>
+        <option value="linear-gradient(to right, #4facfe, #00f2fe)">Ocean Blue</option>
+        <option value="linear-gradient(to right, #c2e9fb, #a1c4fd)">Pastel Blue</option>
+        <option value="linear-gradient(to right, #ff9a9e, #fad0c4)">Rose Love</option>
+        <option value="linear-gradient(to right, #a18cd1, #fbc2eb)">Purple Dream</option>
+        <option value="linear-gradient(to right, #43cea2, #185a9d)">Ocean Breeze</option>
+        <option value="linear-gradient(to right, #fddb92, #d1fdff)">Sunshine & Sky</option>
+        <option value="linear-gradient(to right, #6a11cb, #2575fc)">Royal Blue</option>
+        <option value="linear-gradient(to right, #ffecd2, #fcb69f)">Peach Glow</option>
+      </select>
+    </div>
+    <footer>&copy; <span id="year"></span> With endless love.</footer>
+  </main>
 
+  <noscript><p style="margin-top:1rem;font-size:.9rem;opacity:.7">This little comfort button needs JavaScript to show the love notes 💕</p></noscript>
   <script>
     const messages = [
       // Sweet Love Notes
@@ -144,15 +92,29 @@
     ];
 
     function showMessage() {
-      const box = document.getElementById("messageBox");
+      const box = document.getElementById('messageBox');
       const randomIndex = Math.floor(Math.random() * messages.length);
       box.textContent = messages[randomIndex];
     }
 
-    function changeBackground() {
-      const selected = document.getElementById("bgSelect").value;
-      document.body.style.background = selected;
+    function changeBackground(value) {
+      document.body.style.background = value;
     }
+
+    // Event wiring after DOM is parsed
+    const btn = document.getElementById('comfortBtn');
+    const select = document.getElementById('bgSelect');
+    btn.addEventListener('click', showMessage);
+    select.addEventListener('change', (e) => changeBackground(e.target.value));
+
+    // Enter / Space accessibility (some browsers already handle button Enter, but we ensure Space).
+    btn.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') { e.preventDefault(); showMessage(); }
+    });
+
+    // Initial year and first message prefill (optional)
+    document.getElementById('year').textContent = new Date().getFullYear();
+    showMessage();
   </script>
 </body>
 </html>
