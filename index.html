@@ -16,9 +16,12 @@
     <p class="intro">Whenever you miss me, tap below for a little surprise from me:</p>
     <div class="actions">
       <button class="btn" id="comfortBtn" type="button" aria-describedby="messageBox">Click me, my Love 💕</button>
+      <button class="btn" id="hugBtn" type="button" style="background:var(--pink-accent);margin-left:0.5em;">Emotional Hug 🤗</button>
     </div>
+    <div id="hugOverlay" aria-hidden="true"></div>
+  <!-- No static audio element needed; will create dynamically -->
   <div class="message" id="messageBox" role="status" aria-live="polite" aria-atomic="true"></div>
-  <div class="countdown" id="countdownBox" aria-live="polite"></div>
+  <div class="countdown-floating" id="countdownBox" aria-live="polite"></div>
   <div class="heart" aria-hidden="true">❤️</div>
 
     <div class="background-selector">
@@ -102,15 +105,70 @@
       document.body.style.background = value;
     }
 
+
     // Event wiring after DOM is parsed
     const btn = document.getElementById('comfortBtn');
     const select = document.getElementById('bgSelect');
+    const hugBtn = document.getElementById('hugBtn');
+    const hugOverlay = document.getElementById('hugOverlay');
     btn.addEventListener('click', showMessage);
     select.addEventListener('change', (e) => changeBackground(e.target.value));
 
     // Enter / Space accessibility (some browsers already handle button Enter, but we ensure Space).
     btn.addEventListener('keydown', (e) => {
       if (e.code === 'Space') { e.preventDefault(); showMessage(); }
+    });
+
+    // Emotional Hug Feature
+    // Emotional Hug: fetch manifest and play random sound
+    let hugSounds = null;
+    async function getHugSounds() {
+      if (hugSounds) return hugSounds;
+      try {
+        const resp = await fetch('hugsounds/manifest.json');
+        const arr = await resp.json();
+        hugSounds = arr.map(f => 'hugsounds/' + f);
+        return hugSounds;
+      } catch (e) {
+        return [];
+      }
+    }
+
+    hugBtn.addEventListener('click', async () => {
+      const sounds = await getHugSounds();
+      if (!sounds.length) return alert('No hug sounds found!');
+      // Pick a random sound
+      const sound = sounds[Math.floor(Math.random()*sounds.length)];
+      // Remove any previous audio
+      let prev = document.getElementById('hugAudioDynamic');
+      if (prev) prev.remove();
+      // Create and play audio
+      const audio = document.createElement('audio');
+      audio.id = 'hugAudioDynamic';
+      audio.src = sound;
+      audio.preload = 'auto';
+      audio.style.display = 'none';
+      document.body.appendChild(audio);
+      try { audio.currentTime = 0; audio.play(); } catch(e){}
+
+      // Clear overlay
+      hugOverlay.innerHTML = '';
+      hugOverlay.classList.add('active');
+      // Add 32 floating hearts/flowers
+      const icons = ['❤️','💖','💐','🌸','💞','🌷','💗','💝','🌺','💓'];
+      for(let i=0;i<32;i++){
+        const el = document.createElement('span');
+        el.className = 'hug-float';
+        el.textContent = icons[Math.floor(Math.random()*icons.length)];
+        el.style.left = Math.random()*100+'vw';
+        el.style.animationDelay = (Math.random()*0.8)+'s';
+        el.style.fontSize = (Math.random()*1.2+1.2)+'em';
+        hugOverlay.appendChild(el);
+      }
+      // Remove overlay after 3.5s
+      setTimeout(()=>{ hugOverlay.classList.remove('active'); hugOverlay.innerHTML=''; }, 3500);
+      // Remove audio after playback
+      audio.addEventListener('ended', ()=>audio.remove());
     });
 
     // Countdown logic
@@ -128,7 +186,7 @@
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const mins = Math.floor((diff / (1000 * 60)) % 60);
       const secs = Math.floor((diff / 1000) % 60);
-      countdownBox.textContent = `⏳ ${days} day${days!==1?'s':''}, ${hours}h ${mins}m ${secs}s until you see each other!`;
+      countdownBox.textContent = `⏳ ${days} day${days!==1?'s':''}, ${hours}h ${mins}m ${secs}s until we see each other!`;
     }
     setInterval(updateCountdown, 1000);
     updateCountdown();

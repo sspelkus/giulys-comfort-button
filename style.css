@@ -1,3 +1,37 @@
+/* Emotional Hug Overlay */
+#hugOverlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s;
+  background: transparent;
+}
+#hugOverlay.active {
+  opacity: 1;
+  background: rgba(255,255,255,0.12);
+  pointer-events: auto;
+}
+.hug-float {
+  position: absolute;
+  bottom: -3.5em;
+  user-select: none;
+  pointer-events: none;
+  animation: hug-float 2.8s cubic-bezier(.4,0,.7,1) forwards;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.10));
+}
+@keyframes hug-float {
+  0% { opacity: 0; transform: translateY(0) scale(0.7) rotate(-8deg); }
+  10% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-90vh) scale(1.25) rotate(12deg); }
+}
 /* Mobile-first responsive styles for Giuly's Comfort Button */
 :root {
   --pink: #ff4d88;
@@ -89,20 +123,70 @@ p.intro { font-size: clamp(1rem, 4.4vw, 1.15rem); margin: 0 0 1.2rem; }
   font-weight: 500;
 }
 
-.countdown {
-  margin: 1.1rem auto 0.2rem;
+.countdown-floating {
+  position: fixed;
+  z-index: 1000;
+  right: 1.2rem;
+  bottom: 1.2rem;
+  min-width: 210px;
+  max-width: 90vw;
   font-size: clamp(1.05rem, 4vw, 1.18rem);
   color: var(--pink);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.5px;
-  background: rgba(255,255,255,0.7);
-  border-radius: 12px;
-  padding: 0.7em 1.1em;
-  box-shadow: 0 2px 8px -4px rgba(0,0,0,0.10);
-  display: inline-block;
+  background: rgba(255,255,255,0.97);
+  border-radius: 16px 16px 24px 16px;
+  padding: 1em 1.2em 1.1em 1.2em;
+  box-shadow: 0 6px 32px -4px rgba(0,0,0,0.18), 0 1.5px 6px rgba(0,0,0,0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.2s, background 0.2s;
+  border: 2.5px solid var(--pink);
+  pointer-events: auto;
+  user-select: text;
+}
+.countdown-floating::before {
+  content: "Venice Vacation";
+  display: block;
+  font-size: 0.92em;
+  font-weight: 600;
+  color: #fff;
+  background: var(--pink);
+  border-radius: 10px 10px 10px 2px;
+  padding: 0.18em 0.7em 0.18em 0.6em;
+  margin-bottom: 0.38em;
+  margin-right: 0.7em;
+  letter-spacing: 0.2px;
+  box-shadow: 0 1.5px 6px rgba(0,0,0,0.10);
+}
+@media (max-width: 600px) {
+  .countdown-floating {
+    right: 0.5rem;
+    left: 0.5rem;
+    bottom: 0.5rem;
+    min-width: unset;
+    max-width: 98vw;
+    border-radius: 14px 14px 18px 14px;
+    font-size: 1rem;
+    padding: 0.8em 0.7em 0.9em 0.7em;
+  }
+  .countdown-floating::before {
+    font-size: 0.98em;
+    margin-bottom: 0.3em;
+    margin-right: 0.5em;
+  }
 }
 @media (prefers-color-scheme: dark) {
-  .countdown { background: rgba(40,45,52,0.78); color: #ffb3d1; }
+  .countdown-floating {
+    background: rgba(40,45,52,0.98);
+    color: #ffb3d1;
+    border-color: #ffb3d1;
+  }
+  .countdown-floating::before {
+    background: #ffb3d1;
+    color: #2b2b2b;
+  }
 }
 
 @media (prefers-color-scheme: dark) { .message { background: rgba(40,45,52,0.78); } }
