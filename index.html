@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For My Love Giuly 💕</title>
+  <style>
+    body {
+      font-family: 'Trebuchet MS', sans-serif;
+      background: linear-gradient(to right, #fceff9, #e2f0ff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+    h1 {
+      color: #ff4d88;
+    }
+    .btn {
+      background: #ff4d88;
+      border: none;
+      padding: 15px 30px;
+      color: white;
+      font-size: 18px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: #ff6699;
+      transform: scale(1.05);
+    }
+    .message {
+      margin-top: 30px;
+      font-size: 20px;
+      color: #333;
+      min-height: 50px;
+      padding: 20px;
+      border-radius: 15px;
+      background: white;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      max-width: 600px;
+    }
+    .heart {
+      font-size: 40px;
+      color: #ff4d88;
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Hi Honey 💖</h1>
+  <p>Whenever you miss me, click below for a little surprise from me:</p>
+  <button class="btn" onclick="showMessage()">Click me, my Love 💕</button>
+  <div class="message" id="messageBox"></div>
+  <div class="heart">❤️</div>
+
+  <script>
+    const messages = [
+      // Sweet Love Notes
+      "I love you more than all the stars in the sky, Honey 🌙✨",
+      "You are my sunshine, Baby 🌞",
+      "Whenever you smile, my whole world lights up 💖",
+      "You are my safe place, my Love 🤍",
+
+      // Random Facts About Me
+      "Fun fact: When I was little, my favorite snack was chocolate croissants 🥐🍫",
+      "Sometimes I hear a song and instantly think of you 🎶💕",
+      "I always think of you when I see pink flowers 🌸",
+      "I still remember the first time you called me 'my Love' 😍",
+
+      // Mood Boosters
+      "Close your eyes... imagine me hugging you tight 🤗",
+      "Breathe in, breathe out... you’re strong, beautiful, and loved 💕",
+      "Even when we’re apart, my heart is always with you 💓",
+      "Giuly, you make the world more beautiful just by being in it 🌍💖"
+    ];
+
+    function showMessage() {
+      const box = document.getElementById("messageBox");
+      const randomIndex = Math.floor(Math.random() * messages.length);
+      box.textContent = messages[randomIndex];
+    }
+  </script>
+</body>
+</html>
