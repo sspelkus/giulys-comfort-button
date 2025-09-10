@@ -14,6 +14,7 @@
       height: 100vh;
       margin: 0;
       text-align: center;
+      transition: background 1s ease;
     }
     h1 {
       color: #ff4d88;
@@ -28,6 +29,7 @@
       cursor: pointer;
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
       transition: 0.3s;
+      margin: 10px;
     }
     .btn:hover {
       background: #ff6699;
@@ -54,6 +56,16 @@
       50% { transform: scale(1.2); }
       100% { transform: scale(1); }
     }
+    .background-selector {
+      margin-top: 20px;
+    }
+    select {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -62,6 +74,22 @@
   <button class="btn" onclick="showMessage()">Click me, my Love 💕</button>
   <div class="message" id="messageBox"></div>
   <div class="heart">❤️</div>
+
+  <div class="background-selector">
+    <p>✨ Choose a background you like, Honey:</p>
+    <select id="bgSelect" onchange="changeBackground()">
+      <option value="linear-gradient(to right, #fceff9, #e2f0ff)">Soft Pink & Blue</option>
+      <option value="linear-gradient(to right, #89f7fe, #66a6ff)">Sky Blue Gradient</option>
+      <option value="linear-gradient(to right, #4facfe, #00f2fe)">Ocean Blue</option>
+      <option value="linear-gradient(to right, #c2e9fb, #a1c4fd)">Pastel Blue</option>
+      <option value="linear-gradient(to right, #ff9a9e, #fad0c4)">Rose Love</option>
+      <option value="linear-gradient(to right, #a18cd1, #fbc2eb)">Purple Dream</option>
+      <option value="linear-gradient(to right, #43cea2, #185a9d)">Ocean Breeze</option>
+      <option value="linear-gradient(to right, #fddb92, #d1fdff)">Sunshine & Sky</option>
+      <option value="linear-gradient(to right, #6a11cb, #2575fc)">Royal Blue</option>
+      <option value="linear-gradient(to right, #ffecd2, #fcb69f)">Peach Glow</option>
+    </select>
+  </div>
 
   <script>
     const messages = [
@@ -119,6 +147,11 @@
       const box = document.getElementById("messageBox");
       const randomIndex = Math.floor(Math.random() * messages.length);
       box.textContent = messages[randomIndex];
+    }
+
+    function changeBackground() {
+      const selected = document.getElementById("bgSelect").value;
+      document.body.style.background = selected;
     }
   </script>
 </body>
