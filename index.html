@@ -17,8 +17,9 @@
     <div class="actions">
       <button class="btn" id="comfortBtn" type="button" aria-describedby="messageBox">Click me, my Love 💕</button>
     </div>
-    <div class="message" id="messageBox" role="status" aria-live="polite" aria-atomic="true"></div>
-    <div class="heart" aria-hidden="true">❤️</div>
+  <div class="message" id="messageBox" role="status" aria-live="polite" aria-atomic="true"></div>
+  <div class="countdown" id="countdownBox" aria-live="polite"></div>
+  <div class="heart" aria-hidden="true">❤️</div>
 
     <div class="background-selector">
       <p>✨ Choose a background you like, Honey:</p>
@@ -111,6 +112,26 @@
     btn.addEventListener('keydown', (e) => {
       if (e.code === 'Space') { e.preventDefault(); showMessage(); }
     });
+
+    // Countdown logic
+    function updateCountdown() {
+      const countdownBox = document.getElementById('countdownBox');
+      // Set your next meeting date here (YYYY-MM-DDTHH:MM:SS in local time or UTC)
+      const nextMeeting = new Date('2025-09-27T00:00:00');
+      const now = new Date();
+      const diff = nextMeeting - now;
+      if (diff <= 0) {
+        countdownBox.textContent = "It's time! You're together now! 💖";
+        return;
+      }
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / (1000 * 60)) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+      countdownBox.textContent = `⏳ ${days} day${days!==1?'s':''}, ${hours}h ${mins}m ${secs}s until you see each other!`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
 
     // Initial year and first message prefill (optional)
     document.getElementById('year').textContent = new Date().getFullYear();
