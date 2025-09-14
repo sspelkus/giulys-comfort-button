@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#ff4d88" />
   <title>For My Love Giuly 💕</title>
   <meta name="description" content="A tiny comfort button full of love notes for Giuly." />
-  <link rel="preload" href="style.css?v=2" as="style" />
-  <link rel="stylesheet" href="style.css?v=2" />
+  <link rel="preload" href="style.css?v=3" as="style" />
+  <link rel="stylesheet" href="style.css?v=3" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Ctext y='50%' x='50%' dominant-baseline='middle' text-anchor='middle' font-size='48'%3E❤%3C/text%3E%3C/svg%3E" />
 </head>
 <body>
@@ -17,6 +17,15 @@
     <div class="actions">
       <button class="btn" id="comfortBtn" type="button" aria-describedby="messageBox">Click me, my Love 💕</button>
       <button class="btn" id="hugBtn" type="button" style="background:var(--pink-accent);margin-left:0.5em;">Emotional Hug 🤗</button>
+  <button class="btn" id="breatheBtn" type="button" style="background:#7ed6df;margin-left:0.5em;">Breathing Exercise ❤️</button>
+    </div>
+    <div id="breatheOverlay" aria-modal="true" role="dialog" tabindex="-1" style="display:none;">
+      <div class="breathe-modal">
+        <button class="breathe-close" id="breatheClose" aria-label="Close breathing exercise">×</button>
+        <div class="breathe-heart" id="breatheHeart">❤️</div>
+        <div class="breathe-instructions" id="breatheInstructions">Breathe in…</div>
+        <audio id="breatheAudio" src="calm.mp3" preload="auto" loop></audio>
+      </div>
     </div>
     <div id="hugOverlay" aria-hidden="true"></div>
   <!-- No static audio element needed; will create dynamically -->
@@ -44,6 +53,63 @@
 
   <noscript><p style="margin-top:1rem;font-size:.9rem;opacity:.7">This little comfort button needs JavaScript to show the love notes 💕</p></noscript>
   <script>
+    // Breathing Exercise Feature
+    const breatheBtn = document.getElementById('breatheBtn');
+    const breatheOverlay = document.getElementById('breatheOverlay');
+    const breatheClose = document.getElementById('breatheClose');
+    const breatheHeart = document.getElementById('breatheHeart');
+    const breatheInstructions = document.getElementById('breatheInstructions');
+    const breatheAudio = document.getElementById('breatheAudio');
+
+    let breatheInterval = null;
+    const breathePhases = [
+      {text: 'Breathe in…', scale: 1.25, duration: 4000},
+      {text: 'Hold…', scale: 1.25, duration: 2000},
+      {text: 'Breathe out…', scale: 0.85, duration: 4000},
+      {text: 'Hold…', scale: 0.85, duration: 2000}
+    ];
+
+    function startBreathing() {
+      // Start small and immediately grow for 'Breathe in…'
+      breatheHeart.style.transition = 'none';
+      breatheHeart.style.transform = 'scale(0.85)';
+      setTimeout(() => {
+        let phase = 0;
+        function nextPhase() {
+          const p = breathePhases[phase];
+          breatheInstructions.textContent = p.text;
+          breatheHeart.style.transition = `transform ${p.duration/1000}s cubic-bezier(.4,0,.7,1)`;
+          breatheHeart.style.transform = `scale(${p.scale})`;
+          phase = (phase + 1) % breathePhases.length;
+          breatheInterval = setTimeout(nextPhase, p.duration);
+        }
+        nextPhase();
+      }, 30);
+    }
+
+    function stopBreathing() {
+      clearTimeout(breatheInterval);
+      breatheHeart.style.transform = 'scale(1)';
+      breatheInstructions.textContent = '';
+    }
+
+    breatheBtn.addEventListener('click', () => {
+      breatheOverlay.style.display = 'flex';
+      setTimeout(()=>breatheOverlay.focus(), 50);
+      breatheAudio.currentTime = 0;
+      breatheAudio.volume = 0.3;
+      breatheAudio.play();
+      startBreathing();
+    });
+    breatheClose.addEventListener('click', () => {
+      breatheOverlay.style.display = 'none';
+      breatheAudio.pause();
+      stopBreathing();
+    });
+    // ESC closes overlay
+    breatheOverlay.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { breatheOverlay.style.display = 'none'; breatheAudio.pause(); stopBreathing(); }
+    });
     const messages = [
       // Sweet Love Notes
     "I love you more than all the stars in the universe, Honey 🌙✨",
