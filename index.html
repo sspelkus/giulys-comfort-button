@@ -93,18 +93,55 @@
       breatheInstructions.textContent = '';
     }
 
+    // Fade helpers
+    function fadeAudio(audio, from, to, duration, cb) {
+      const steps = 30;
+      let step = 0;
+      const diff = to - from;
+      audio.volume = from;
+      function next() {
+        step++;
+        audio.volume = from + (diff * (step/steps));
+        if (step < steps) setTimeout(next, duration/steps);
+        else { audio.volume = to; if(cb) cb(); }
+      }
+      next();
+    }
+
+    let breatheFadeOut = false;
+    const breatheTargetVol = 0.3;
+
     breatheBtn.addEventListener('click', () => {
       breatheOverlay.style.display = 'flex';
       setTimeout(()=>breatheOverlay.focus(), 50);
       breatheAudio.currentTime = 0;
-      breatheAudio.volume = 0.3;
+      breatheAudio.volume = 0;
       breatheAudio.play();
+      breatheFadeOut = false;
+      fadeAudio(breatheAudio, 0, breatheTargetVol, 1500);
       startBreathing();
     });
     breatheClose.addEventListener('click', () => {
-      breatheOverlay.style.display = 'none';
-      breatheAudio.pause();
-      stopBreathing();
+      breatheFadeOut = true;
+      fadeAudio(breatheAudio, breatheAudio.volume, 0, 1500, () => {
+        breatheAudio.pause();
+        breatheOverlay.style.display = 'none';
+        stopBreathing();
+      });
+    });
+    // Fade out/in at loop for seamlessness
+    breatheAudio.addEventListener('timeupdate', function() {
+      if (breatheAudio.duration && breatheAudio.loop && !breatheFadeOut) {
+        // Fade out last 1.2s, fade in first 1.2s
+        const fadeDur = 1.2;
+        if (breatheAudio.currentTime < fadeDur) {
+          breatheAudio.volume = breatheTargetVol * (breatheAudio.currentTime/fadeDur);
+        } else if (breatheAudio.duration - breatheAudio.currentTime < fadeDur) {
+          breatheAudio.volume = breatheTargetVol * ((breatheAudio.duration-breatheAudio.currentTime)/fadeDur);
+        } else {
+          breatheAudio.volume = breatheTargetVol;
+        }
+      }
     });
     // ESC closes overlay
     breatheOverlay.addEventListener('keydown', e => {
