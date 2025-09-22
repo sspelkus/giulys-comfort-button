@@ -1,3 +1,81 @@
+/* Daily Challenge Floating Box */
+.daily-challenge-floating {
+  position: fixed;
+  z-index: 1000;
+  left: 1.2rem;
+  bottom: 1.2rem;
+  min-width: 210px;
+  max-width: 90vw;
+  font-size: clamp(1.05rem, 4vw, 1.18rem);
+  color: var(--pink-accent);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background: rgba(255,255,255,0.97);
+  border-radius: 16px 16px 24px 16px;
+  padding: 1em 1.2em 1.1em 1.2em;
+  box-shadow: 0 6px 32px -4px rgba(0,0,0,0.18), 0 1.5px 6px rgba(0,0,0,0.10);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.2s, background 0.2s;
+  border: 2.5px solid var(--pink-accent);
+  pointer-events: auto;
+  user-select: text;
+  text-align: center;
+}
+.daily-challenge-floating::before {
+  content: "Daily Challenge";
+  display: block;
+  font-size: 0.92em;
+  font-weight: 600;
+  color: #fff;
+  background: var(--pink-accent);
+  border-radius: 10px 10px 10px 2px;
+  padding: 0.18em 0.7em 0.18em 0.6em;
+  margin-bottom: 0.38em;
+  margin-right: 0.7em;
+  letter-spacing: 0.2px;
+  box-shadow: 0 1.5px 6px rgba(0,0,0,0.10);
+}
+.daily-challenge-floating span {
+  display: block;
+  margin-top: 0.2em;
+  font-size: 1.08em;
+  color: var(--text-dark);
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .daily-challenge-floating {
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    min-width: unset;
+    max-width: 98vw;
+    border-radius: 14px 14px 18px 14px;
+    font-size: 1rem;
+    padding: 0.8em 0.7em 0.9em 0.7em;
+  }
+  .daily-challenge-floating::before {
+    font-size: 0.98em;
+    margin-bottom: 0.3em;
+    margin-right: 0.5em;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  .daily-challenge-floating {
+    background: rgba(40,45,52,0.98);
+    color: #ffb3d1;
+    border-color: #ffb3d1;
+  }
+  .daily-challenge-floating::before {
+    background: #ffb3d1;
+    color: #2b2b2b;
+  }
+  .daily-challenge-floating span { color: #e8e8e8; }
+}
 /* Breathing Exercise Modal */
 #breatheOverlay {
   position: fixed;

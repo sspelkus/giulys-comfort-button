@@ -17,7 +17,9 @@
     <div class="actions">
       <button class="btn" id="comfortBtn" type="button" aria-describedby="messageBox">Click me, my Love 💕</button>
       <button class="btn" id="hugBtn" type="button" style="background:var(--pink-accent);margin-left:0.5em;">Emotional Hug 🤗</button>
-  <button class="btn" id="breatheBtn" type="button" style="background:#7ed6df;margin-left:0.5em;">Breathing Exercise ❤️</button>
+      <button class="btn" id="breatheBtn" type="button" style="background:#7ed6df;margin-left:0.5em;">Breathing Exercise ❤️</button>
+    </div>
+  <div class="daily-challenge-floating" id="dailyChallengeBox"></div>
     </div>
     <div id="breatheOverlay" aria-modal="true" role="dialog" tabindex="-1" style="display:none;">
       <div class="breathe-modal">
@@ -53,6 +55,56 @@
 
   <noscript><p style="margin-top:1rem;font-size:.9rem;opacity:.7">This little comfort button needs JavaScript to show the love notes 💕</p></noscript>
   <script>
+    // Daily Challenge Feature
+    const dailyChallenges = [
+      "Send me a selfie with your biggest smile! 😊",
+      "Write down three things you’re grateful for today.",
+      "Listen to your favorite song and think of me! 🎶",
+      "Go for a short walk and take a photo of something beautiful.",
+      "Text me a random fun fact about yourself!",
+      "Draw a little doodle and send it to me.",
+      "Watch a sunset and send me a picture.",
+      "Try a new snack and tell me about it!",
+      "Send me a voice note saying something you love about us.",
+      "Write a short poem about how you feel today.",
+      "Find a heart shape in your surroundings and snap a photo.",
+      "Make a wish for us and share it with me.",
+      "Do a short breathing exercise and let me know how you feel.",
+      "Send me a GIF that makes you laugh!",
+      "Plan a future date idea and tell me about it.",
+      "Share a favorite childhood memory with me.",
+      "Try a new hairstyle and show me!",
+      "Send me a song recommendation.",
+      "Write a letter to your future self about our love.",
+      "Take a photo of your favorite cozy spot at home.",
+      "Send me a compliment!",
+      "Make a list of things you want to do together.",
+      "Send me a picture of something that reminds you of me.",
+      "Try a new hobby or craft and show me the result!",
+      "Send me a picture of your favorite mug or cup.",
+      "Share a quote that inspires you today.",
+      "Send me a photo of your favorite book or movie.",
+      "Make a playlist for us and share it.",
+      "Send me a photo of your pet or a cute animal you found online.",
+      "Write down a dream you had recently and tell me about it."
+    ];
+
+    function getDailyChallenge() {
+      // Use the day of the year to rotate challenges
+      const now = new Date();
+      const start = new Date(now.getFullYear(), 0, 0);
+      const diff = now - start;
+      const oneDay = 1000 * 60 * 60 * 24;
+      const dayOfYear = Math.floor(diff / oneDay);
+      return dailyChallenges[dayOfYear % dailyChallenges.length];
+    }
+
+    function showDailyChallenge() {
+      const box = document.getElementById('dailyChallengeBox');
+      box.innerHTML = `<span>${getDailyChallenge()}</span>`;
+    }
+
+    showDailyChallenge();
     // Breathing Exercise Feature
     const breatheBtn = document.getElementById('breatheBtn');
     const breatheOverlay = document.getElementById('breatheOverlay');
